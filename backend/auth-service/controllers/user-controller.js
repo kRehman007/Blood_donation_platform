@@ -3,6 +3,10 @@ const userModel = require("../models/user-model");
 
 async function RegisterUser(req,res){
  const { fullname, username, email, password,role,phone } = req.body;
+ const existingUserName=await userModel.findOne({username})
+    if(existingUserName){
+        return res.status(400).json({message:"Username already taken"})
+    }
  const existingUser = await userModel.findOne({ phone });
     if (existingUser) {
       return res.status(400).json({ message: "Phone number already registered" });

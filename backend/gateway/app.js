@@ -2,9 +2,16 @@ require("dotenv").config()
 const express=require("express")
 const expressProxy=require("express-http-proxy")
 const app=express()
+const cors=require("cors")
+app.use(express.json())
 
 
+const corsOptions = {
+  origin: process.env.FRONT_END_URL,
+  credentials: true,              
+};
 
+app.use(cors(corsOptions));
 
 app.get("/",(req,res)=>{
     res.send("hello from gateway")

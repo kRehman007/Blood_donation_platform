@@ -5,7 +5,6 @@ const cors=require('cors');
 const cookieParser = require('cookie-parser');
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
-app.use(cors("*"));
 app.use(cookieParser());
 const userRoute = require('./routes/user-route');
 const checkAuthUser = require('../shared/middlewares/authUser');
@@ -15,6 +14,12 @@ RabbitMQ.connect()
 const {EvenListener}=require("./services/rabbit-listener");
 EvenListener()
 
+const corsOptions = {
+  origin: process.env.FRONT_END_URL,
+  credentials: true,              
+};
+
+app.use(cors(corsOptions));
 
 
 app.get("/auth/validate-user",checkAuthUser,(req,res)=>{
